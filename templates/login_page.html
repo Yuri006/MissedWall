@@ -9,25 +9,53 @@
             font-family: "Open Sans Extrabold";
             padding-top: 30px;
         }
-        .input100 {
+
+        #nick-field {
             color: #403866;
             line-height: 1.2;
             font-size: 16px;
             width: 100%;
             background-color: #e5e5e5;
             position: relative;
-
             display: block;
 
             height: 62px;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             margin-bottom: 2%;
-            padding-left: 4%;
+            box-sizing: border-box;
+            padding-left: 5%;
+
+            transition: background-color 0.7s linear;
+
+            /* transition: background-color 3s cubic-bezier(0.1, 0.8, 0.5, 2), color 3s 1s linear; */
+
+            /* transition-property: background-color, color;
+            transition-duration: 3s;
+            transition-delay: 0s, 1s;
+            transition-timing-function: cubic-bezier(0.1, 0.8, 0.5, 2), linear; */
 
         }
 
-        .wrap-login100 {
+        #passwd-field {
+            color: #403866;
+            line-height: 1.2;
+            font-size: 16px;
+            width: 100%;
+            background-color: #e5e5e5;
+            position: relative;
+            display: block;
+
+            height: 62px;
+            border: none;
+            border-radius: 14px;
+            margin-bottom: 2%;
+            box-sizing: border-box;
+            padding-left: 5%;
+
+        }
+
+        .login-div {
             width: 390px;
             background: #fff;
             border-radius: 10px;
@@ -38,9 +66,10 @@
             height: 400px;
         }
 
-        .login100-form-btn {
+        .login-btn {
             font-family: "Open Sans Extrabold";
             font-size: 16px;
+            overflow: hidden;
             color: #fff;
             line-height: 1.2;
             text-transform: uppercase;
@@ -59,37 +88,65 @@
             transition: all 0.4s;
         }
 
-        .login100-form-btn:hover {
+        .login-btn:hover {
             background-color: #403866;
         }
 
-        .wrap-login1 {
+        .login-mini-div {
             height: 25%;
             position: relative;
-            overflow: hidden;
         }
 
-        .input100::-moz-placeholder {text-indent: 0px;   transition: text-indent 0.3s ease;}
-        .input100:focus::-moz-placeholder {text-indent: 500px; transition: text-indent 0.3s ease;}
+        #nick-field::-moz-placeholder {
+            text-indent: 0px;
+            transition: text-indent 0.3s ease;
+        }
 
+        #passwd-field::-moz-placeholder {
+            text-indent: 0px;
+            transition: text-indent 0.3s ease;
+        }
+
+        #nick-field:focus::-moz-placeholder {
+            text-indent: 500px;
+            transition: text-indent 0.3s ease;
+        }
+
+        #passwd-field:focus::-moz-placeholder {
+            text-indent: 500px;
+            transition: text-indent 0.3s ease;
+        }
     </style>
 </head>
 <body>
-<div class='wrap-login100'>
-    <div class='wrap-login1'>
+<div class='login-div'>
+    <div class='login-mini-div'>
         <h1>Login</h1>
     </div>
-    <form action='/cgi-bin/login' method="get">
-        <div class='wrap-login1'>
-            <input type="text" class='input100' name="username" placeholder="Username">
+    <form action='cgi-bin/login' method="get">
+        <div class='login-mini-div'>
+            <input type="text" id='nick-field' name="username" placeholder="Username">
         </div>
-        <div class='wrap-login1'>
-            <input type="password" class='input100' name="password" placeholder="Password">
+        <div class='login-mini-div'>
+            <input type="password" id='passwd-field' name="password" placeholder="Password">
         </div>
-        <div class='wrap-login1'>
-            <input class='login100-form-btn' type="submit" value="Login">
+        <div class='login-mini-div'>
+            <input class='login-btn' type="submit" value="Login">
         </div>
     </form>
+    <script type='module'>
+        import {checking_nickname} from "../static/login_page.js";
+
+        let field = document.getElementById("nick-field");
+        let current_value = field.value
+        field.addEventListener("input", function () {
+            if (current_value != field.value){
+                checking_nickname()
+                current_value = field.value
+            }
+        });
+        /* document.getElementById('nick-field').onchange = checking_nickname() */
+    </script>
 </div>
 </body>
 </html>
