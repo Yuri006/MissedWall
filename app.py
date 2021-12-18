@@ -22,16 +22,17 @@ def login():
 
 @app.route('/wall')
 def main_wall():
-    username = request.cookies.get('username')
-    password = request.cookies.get('password')
-    return render_template('wall.html', name=username, password=password)
+    return render_template('wall.html', number_of_user=main_db.number_of_user())
 
 
-'''
 @app.route('/registration')
 def reg():
     return render_template('reg.html')
-'''
+
+
+@app.route('/forgot')
+def forgot():
+    return render_template('forgot.html')
 
 
 @app.route('/')

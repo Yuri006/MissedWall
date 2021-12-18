@@ -8,7 +8,7 @@ export function checking_nickname() {
     if (nick != ''){
         $.get(url, function (data) {
         if (data == '0') {
-            document.getElementById('nick-field').style.backgroundColor = '#b96e78'
+            document.getElementById('nick-field').style.backgroundColor = '#e7a1a7' /* #b96e78 */
         } else {
             document.getElementById('nick-field').style.backgroundColor = '#e5e5e5'
         }

@@ -67,7 +67,7 @@ class MainDB:
             return True
         return False
 
-    def users_all(self, name):
+    def users_all_info(self, name):
         db = sqlite3.connect(self.path)
         cur = db.cursor()
         sql1 = '''SELECT * FROM users WHERE name = ?;'''
@@ -89,13 +89,24 @@ class MainDB:
             return 1
         return -1
 
+    def number_of_user(self):
+        db = sqlite3.connect(self.path)
+        cur = db.cursor()
+        sql1 = '''SELECT last_insert_rowid() FROM users'''
+        cur.execute(sql1)
+        number = cur.fetchall()
+        return len(number)
 
 '''
 db = MainDB('wall.db')
 db.init_table()
-# db.new_users('y', 'wdawdawd')
-print(db.check_name('y'))
-print(db.check_name('yg'))
-db.users_all('y')
-print(db.check_password('y', 'wdawdwd'))
+db.new_users('y', 'wdawdawd')
+db.new_users('hh', 'wdawdawd')
+# print(db.check_name('y'))
+# print(db.check_name('yg'))
+# db.users_all_info('y')
+# print(db.check_password('y', 'wdawdwd'))
+db.number_of_user()
 '''
+
+

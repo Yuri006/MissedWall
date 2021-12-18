@@ -10,6 +10,37 @@
             padding-top: 30px;
         }
 
+        #sing-up-btn {
+            font-family: "Open Sans Extrabold";
+            font-size: 105%;
+            color: #000000;
+            line-height: 1.2;
+            position: absolute;
+
+            height: 50%;
+            text-decoration: none;
+            transition: all 0.4s;
+            margin-left: 82%;
+            margin-top: 2%;
+            box-sizing: border-box;
+        }
+
+        #forgot-passwd {
+            font-size: 80%;
+            color: #232246;
+            line-height: 1.2;
+            position: absolute;
+            text-align: left;
+            box-sizing: border-box;
+
+            height: 50%;
+            text-decoration: none;
+            transition: all 0.4s;
+            margin-top: 2%;
+            margin-left: 2%;
+
+        }
+
         #nick-field {
             color: #403866;
             line-height: 1.2;
@@ -26,7 +57,7 @@
             box-sizing: border-box;
             padding-left: 5%;
 
-            transition: background-color 0.7s linear;
+            transition: background-color 0.5s linear;
 
             /* transition: background-color 3s cubic-bezier(0.1, 0.8, 0.5, 2), color 3s 1s linear; */
 
@@ -63,7 +94,7 @@
             margin-left: auto;
             margin-right: auto;
             top: 100px;
-            height: 400px;
+            height: 500px;
         }
 
         .login-btn {
@@ -75,7 +106,6 @@
             text-transform: uppercase;
 
 
-            display: flex;
             justify-content: center;
             align-items: center;
             padding: 0 20px;
@@ -90,6 +120,8 @@
 
         .login-btn:hover {
             background-color: #403866;
+            box-shadow: 0 0 10px #403866;
+            transition: all 0.5s ease;
         }
 
         .login-mini-div {
@@ -116,6 +148,7 @@
             text-indent: 500px;
             transition: text-indent 0.3s ease;
         }
+
     </style>
 </head>
 <body>
@@ -133,6 +166,12 @@
         <div class='login-mini-div'>
             <input class='login-btn' type="submit" value="Login">
         </div>
+        <a id='forgot-passwd' href="/forgot">
+            forgot password?
+        </a>
+        <a id='sing-up-btn' href="/registration">
+            Sing up
+        </a>
     </form>
     <script type='module'>
         import {checking_nickname} from "../static/login_page.js";
@@ -140,7 +179,7 @@
         let field = document.getElementById("nick-field");
         let current_value = field.value
         field.addEventListener("input", function () {
-            if (current_value != field.value){
+            if (current_value != field.value) {
                 checking_nickname()
                 current_value = field.value
             }
