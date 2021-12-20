@@ -97,16 +97,23 @@ class MainDB:
         number = cur.fetchall()
         return len(number)
 
+    def admin_status(self, name):
+        db = sqlite3.connect(self.path)
+        cur = db.cursor()
+        sql1 = '''SELECT is_admin FROM users WHERE name = ?'''
+        cur.execute(sql1, (name,))
+        status = cur.fetchall()
+        return status[0][0]
+
+
 '''
 db = MainDB('wall.db')
-db.init_table()
-db.new_users('y', 'wdawdawd')
-db.new_users('hh', 'wdawdawd')
+# db.init_table()
+db.new_users('admin', 'admin', True)
+# db.new_users('hh', 'wdawdawd')
 # print(db.check_name('y'))
 # print(db.check_name('yg'))
 # db.users_all_info('y')
 # print(db.check_password('y', 'wdawdwd'))
-db.number_of_user()
+db.admin_status('admin')
 '''
-
-

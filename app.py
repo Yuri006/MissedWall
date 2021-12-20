@@ -8,7 +8,16 @@ main_db = MainDB('wall.db')
 
 @app.route('/admin')
 def admin():
-    return render_template('admin_panel.html')
+    if (request.cookies.get('username') is None) or (request.cookies.get('password') is None):
+        return redirect('/login')
+    else:
+        if main_db.check_password(request.cookies.get('username'), request.cookies.get('password')):
+            if main_db.admin_status(request.cookies.get('username')):
+                return render_template('admin_panel.html')
+            else:
+                return redirect('/wall')
+        else:
+            return redirect('/login')
 
 
 @app.route('/login')
@@ -22,7 +31,10 @@ def login():
 
 @app.route('/wall')
 def main_wall():
-    return render_template('wall.html', number_of_user=main_db.number_of_user())
+    if (request.cookies.get('username') is None) or (request.cookies.get('password') is None):
+        return redirect('/login')
+    else:
+        return render_template('wall.html', number_of_user=main_db.number_of_user())
 
 
 @app.route('/registration')
@@ -45,12 +57,18 @@ def cgi(action):
     if action == 'login':
         name = request.args.get('username')
         password = request.args.get('password')
-        correct = main_db.check_password(name, password)
-        if not correct:
-            resp = make_response(redirect('/wall'))
-            resp.set_cookie('username', name, max_age=60 * 60 * 24 * 365 * 2)
-            resp.set_cookie('password', password, max_age=60 * 60 * 24 * 365 * 2)
-            return resp
+        not_correct = main_db.check_password(name, password)
+        if not not_correct:
+            if main_db.admin_status(name):
+                resp = make_response(redirect('/admin'))
+                resp.set_cookie('username', name, max_age=60 * 60 * 24 * 2)
+                resp.set_cookie('password', password, max_age=60 * 60 * 24 * 2)
+                return resp
+            else:
+                resp = make_response(redirect('/wall'))
+                resp.set_cookie('username', name, max_age=60 * 60 * 24 * 2)
+                resp.set_cookie('password', password, max_age=60 * 60 * 24 * 2)
+                return resp
         else:
             if (request.cookies.get('username') is not None) and (request.cookies.get('password') is not None):
                 resp = make_response(redirect('/login'))
