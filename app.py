@@ -25,7 +25,7 @@ def login():
     if (request.cookies.get('username') is not None) and (request.cookies.get('password') is not None):
         return redirect(
             '/cgi-bin/login?username=' + request.cookies.get('username') + '&password=' + request.cookies.get(
-                'password'))
+                'password') + '&remember=on')
     return render_template('login_page.html')
 
 
@@ -57,17 +57,23 @@ def cgi(action):
     if action == 'login':
         name = request.args.get('username')
         password = request.args.get('password')
+        remember = request.args.get('remember')
+        if remember == 'on':
+            remember = 1
+        else:
+            remember = 365
+        print(remember)
         not_correct = main_db.check_password(name, password)
         if not not_correct:
             if main_db.admin_status(name):
                 resp = make_response(redirect('/admin'))
-                resp.set_cookie('username', name, max_age=60 * 60 * 24 * 2)
-                resp.set_cookie('password', password, max_age=60 * 60 * 24 * 2)
+                resp.set_cookie('username', name, max_age=60 * 60 * 24 * 365 // remember)
+                resp.set_cookie('password', password, max_age=60 * 60 * 24 * 365 // remember)
                 return resp
             else:
                 resp = make_response(redirect('/wall'))
-                resp.set_cookie('username', name, max_age=60 * 60 * 24 * 2)
-                resp.set_cookie('password', password, max_age=60 * 60 * 24 * 2)
+                resp.set_cookie('username', name, max_age=60 * 60 * 24 * 365 // remember)
+                resp.set_cookie('password', password, max_age=60 * 60 * 24 * 365 // remember)
                 return resp
         else:
             if (request.cookies.get('username') is not None) and (request.cookies.get('password') is not None):
